@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-<ion-toolbar>
+	<ion-toolbar>
 		<ion-title>
 			Events
 		</ion-title>
@@ -17,7 +17,7 @@
 				<ion-icon name="md-help"></ion-icon>
 			</button>
 		</ion-buttons>
-		</ion-toolbar>
+	</ion-toolbar>
 	<!-- <ion-navbar>
 		<ion-title>Events</ion-title>
 	</ion-navbar> -->
@@ -40,11 +40,10 @@
 			</ion-card-header>
 			<ion-item-divider class="divider"></ion-item-divider>
 			<ion-card-content>
-				<h2>Date: {{event.startDate}} to {{event.endDate}}</h2>
+				<h2>Date: {{setDateFormat(event.startDate)}} - {{setDateFormat(event.endDate)}}</h2>
 				<h2>Participants: <ion-badge>{{event.participants.length}}</ion-badge></h2>
 			</ion-card-content>
 		</ion-card>
 		
 	</ion-list>
-
 </ion-content>

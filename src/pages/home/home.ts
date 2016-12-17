@@ -17,12 +17,12 @@ import { AddEventComponent } from '../../components/add-event/add-event';
   	events: [any];
   	constructor(public navCtrl: NavController, public modalCtrl: ModalController)
   	{
+      console.log(new Date("October 13, 2014 11:13:00"));
   		this.events = [
       {
-        gg: 1,
         title: "Mom Day", 
-        startDate: "12/08/2559",
-        endDate: "13/08/2559",
+        startDate: new Date("August 8, 2016 8:00:00"),
+        endDate: new Date("August 8, 2016 15:00:00"),
         stricted: false,
         strictedParticipants: [],
         participants: [
@@ -33,10 +33,9 @@ import { AddEventComponent } from '../../components/add-event/add-event';
 
       },
       {
-        gg: 2,
         title: "Dad Day", 
-        startDate: "05/12/2559",
-        endDate: "06/12/2559",
+        startDate: new Date("August 8, 2016 8:00:00"),
+        endDate: new Date("August 8, 2016 15:00:00"),
         stricted: true,
         strictedParticipants: [
         "5610110655",
@@ -60,6 +59,18 @@ import { AddEventComponent } from '../../components/add-event/add-event';
 
     showAddEventModal(){
       let modal = this.modalCtrl.create(AddEventComponent);
+      modal.onDidDismiss(event =>{
+        // console.log(event);
+        if(event)
+          this.events.push(event);
+      });
       modal.present();
+    }
+
+    setDateFormat(date){
+      // console.log("From: " + date);
+      // console.log("to: " + ""+date.getDate()+"/"+(date.getMonth() + 1)+"/"+date.getFullYear() + "(" + date.getHours() + ":" + date.getMinutes() + ")");
+
+      return ""+date.getDate()+"/"+(date.getMonth() + 1)+"/"+date.getFullYear() + " (" + date.getHours() + "." + date.getMinutes() + ")";
     }
   }

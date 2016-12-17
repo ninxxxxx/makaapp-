@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ViewController} from 'ionic-angular';
+import { Component, ViewChild, Input} from '@angular/core';
+import { ViewController, ToastController} from 'ionic-angular';
 import {Validators, FormControl} from '@angular/forms';
 /*
   Generated class for the AddEvent component.
@@ -12,13 +12,16 @@ import {Validators, FormControl} from '@angular/forms';
     templateUrl: 'add-event.html'
   })
   export class AddEventComponent {
+    @ViewChild('title') titleInput;
     titleControl: any;
     event: any;
-    constructor(public viewCtrl: ViewController) {
+    d: Date;
+    constructor(public viewCtrl: ViewController, public toastCtrl: ToastController) {
+      this.d = new Date();
       this.titleControl = new FormControl('', Validators.compose([Validators.nullValidator, Validators.required]));
       this.event = {
         title: "",
-        startDate: new Date(),
+        startDate: this.d,
         endDate: new Date(),
         isStricted: false,
         strictedParticipants:[],
@@ -26,13 +29,27 @@ import {Validators, FormControl} from '@angular/forms';
       }
     }
 
-
+    ionViewDidLoad() {
+      this.titleInput.setFocus();
+    }
 
     dismiss(){
       this.viewCtrl.dismiss();
     }
 
     saveEvent(event){
-      console.log(event);
+      if(!event.title){
+        this.presentToast("Require Event's Title");
+      }else{
+        this.viewCtrl.dismiss(event);
+      }
+    }
+
+    presentToast(mgs){
+      let toast = this.toastCtrl.create({
+        message: mgs,
+        duration: 3000,
+      });
+      toast.present();
     }
   }
