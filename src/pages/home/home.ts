@@ -4,6 +4,8 @@ import { NavController, ModalController, ActionSheetController, AlertController 
 
 import { AddEventComponent } from '../../components/add-event/add-event';
 
+import { SearchEventComponent } from '../../components/search-event/search-event';
+import { HowToComponent } from '../../components/how-to/how-to';
 
 /*
   Generated class for the Home page.
@@ -11,9 +13,9 @@ import { AddEventComponent } from '../../components/add-event/add-event';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
   */
-  declare var cordova:any;
-  declare var window:any;
-  const fs:string = cordova.file.dataDirectory;
+  // declare var cordova:any;
+  // declare var window:any;
+  // const fs:string = cordova.file.dataDirectory;
   @Component({
   	selector: 'page-home',
   	templateUrl: 'home.html',
@@ -146,11 +148,21 @@ import { AddEventComponent } from '../../components/add-event/add-event';
     }
 
 
-    createFile(){
-      // File.createDir()
-      File.createFile(cordova.file.dataDirectory, "arnon.txt", false)
-          .then(()=>{console.log("completed")})
-          .catch(()=> console.log("failed"));
+    // createFile(){
+    //   // File.createDir()
+    //   File.createFile(cordova.file.dataDirectory, "arnon.txt", false)
+    //       .then(()=>{console.log("completed")})
+    //       .catch(()=> console.log("failed"));
+    // }
+
+    searchEvent(){
+        let modal = this.modalCtrl.create(SearchEventComponent);
+        modal.present();
+    }
+
+    howToUser(){
+        let modal = this.modalCtrl.create(HowToComponent);
+        modal.present();
     }
 
   }

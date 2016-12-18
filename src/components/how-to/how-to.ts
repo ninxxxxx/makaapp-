@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+import { NavController, ModalController, Platform, NavParams, ViewController} from 'ionic-angular';
+
+
 /*
   Generated class for the HowTo component.
 
@@ -14,9 +17,15 @@ export class HowToComponent {
 
   text: string;
 
-  constructor() {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public viewCtrl: ViewController) 
+   {
     console.log('Hello HowTo Component');
     this.text = 'Hello World';
   }
 
+
+
+    dismiss(){
+      this.viewCtrl.dismiss();
+    }
 }
