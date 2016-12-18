@@ -12,8 +12,6 @@ import { AddEventComponent } from '../../components/add-event/add-event';
   Ionic pages and navigation.
   */
   declare var cordova:any;
-  declare var window:any;
-  const fs:string = cordova.file.dataDirectory;
   @Component({
   	selector: 'page-home',
   	templateUrl: 'home.html',
@@ -148,9 +146,23 @@ import { AddEventComponent } from '../../components/add-event/add-event';
 
     createFile(){
       // File.createDir()
-      File.createFile(cordova.file.dataDirectory, "arnon.txt", false)
-          .then(()=>{console.log("completed")})
-          .catch(()=> console.log("failed"));
+      // console.log("Date: " + cordova.file.externalDataDirectory);
+      let p = [
+      {name:"Sally Whittaker", year:2018},
+      {name:"Belinda Jameson", year:2017},
+      {name:"Jeff Smith", year:2018},
+      {name:"Sandy Allen", year:2019}
+      ];
+      let str = "";
+
+      p.forEach((person)=>{
+        str += person.name + "," + person.year + "\n";
+      });
+
+      // File.writeFile(cordova.file.externalDataDirectory, "arnon.csv", str, false)
+      File.writeFile(cordova.file.externalRootDirectory, "arnon.csv", str, false)
+      .then(()=>{console.log("completed")})
+      .catch(()=> console.log("failed"));
     }
 
   }
