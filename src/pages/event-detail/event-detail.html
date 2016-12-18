@@ -7,12 +7,48 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>eventDetail</ion-title>
+    <ion-title class="colr">{{ event.title }}</ion-title>
+
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+ 
+
+
+  <ion-list class="colr">
+        <p><ion-title class =".tab-item"> Date:  {{ Day }}  Month: {{Month}} Year: {{Year}}</ion-title>
+       <!--  <p>{{teee}}</p> -->
+       <!--  <p>{{e}}</p> -->
+          <p><ion-title class =".tab-item">Number of Participants : {{amount}}</ion-title>
+        <!-- <ion-grid>
+          <ion-row class=".tab-item">
+            <ion-col width-75>
+              <ion-input type="number" [value]="stdNumber" [(ngModel)]="stdNumber" class="oo"> กรอกรหัศนึกศึกษา </ion-input>
+            </ion-col>
+            <ion-col width-25>
+              <button ion-button color="dark" round (click)='addStudent();'>เพิ่ม</button>
+            </ion-col>
+          </ion-row>
+        </ion-grid> -->
+
+        <button ion-button (click)="showList()">View Stricted Paticipants</button>
+        <!-- <button ion-button (click)="pushPage()">Add paticipants</button> -->
+        <button ion-button (click)="pushPage()">Add paticipants</button>
+        <ion-item-divider [hidden]="value_std_sta || !value">List of Paticipants</ion-item-divider>
+        <ion-item-divider [hidden]="value_std || !value">List of Stricted Student</ion-item-divider>
+        <ion-item *ngFor="let subitem of event.id" >
+          <span [hidden]='value_std_sta || !value'> {{ subitem.student }} : {{subitem.status}} </span>
+          <span [hidden]="value_std || !value"> {{ subitem.student }} </span>
+
+        </ion-item>
+
+
+<!-- <ion-datetime displayFormat="DD MMMM YYYY" pickerFormat="DD MMMM YYYY" [(ngModel)]="date"></ion-datetime> -->
+    
+  </ion-list>
+
 
 </ion-content>

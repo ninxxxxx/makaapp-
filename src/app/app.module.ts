@@ -8,6 +8,8 @@ import { EventDetailPage } from '../pages/event-detail/event-detail';
 import {  SearchEventComponent } from '../components/search-event/search-event';
 import {  SearchStudentComponent } from '../components/search-student/search-student';
 import {  HowToComponent } from '../components/how-to/how-to';
+import { PaticipantsPage } from '../pages/paticipants/paticipants';
+
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import {  HowToComponent } from '../components/how-to/how-to';
   SearchEventComponent,
   SearchStudentComponent,
   HowToComponent,
+  PaticipantsPage,
   ],
   imports: [
   IonicModule.forRoot(MyApp)
@@ -31,6 +34,7 @@ import {  HowToComponent } from '../components/how-to/how-to';
   SearchEventComponent,
   SearchStudentComponent,
   HowToComponent,
+  PaticipantsPage,
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
