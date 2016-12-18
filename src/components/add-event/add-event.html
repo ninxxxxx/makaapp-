@@ -4,5 +4,73 @@
   See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
   for more info on Angular 2 Components.
 -->
+<ion-header>
 
-{{text}}
+	<ion-toolbar>
+		<ion-title [hidden]="editEvent">Add Event</ion-title>
+		<ion-title [hidden]="!editEvent">Edit Event</ion-title>
+		<ion-buttons end>
+			<button ion-button icon-only (click)="dismiss()">
+				<ion-icon name="md-close"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+	<!-- {{event|json}} -->
+	<ion-list class="event-form">
+		
+		<ion-item>
+			<ion-label>Event Title</ion-label>
+			<!-- <ion-input [(ngModel)]="event.title"></ion-input> -->
+			<ion-input #title required focus [(ngModel)]="event.title"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label >Start Date</ion-label>
+			<ion-datetime pickerFormat="DD MMMM YYYY HH:mm" displayFormat="DD MMMM YYYY (HH:mm)" [(ngModel)]="event.startDate"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label >End Date</ion-label>
+			<ion-datetime pickerFormat="DD MMMM YYYY HH:mm" displayFormat="DD MMMM YYYY (HH:mm)" [(ngModel)]="event.endDate"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label>Strict</ion-label>
+			<ion-toggle [(ngModel)]="event.isStricted"></ion-toggle>
+		</ion-item>
+		<ion-grid class="grid" [hidden]="!event.isStricted">
+			<ion-row>
+				<ion-col width-80>
+					<ion-item class="stricted-participants">
+						<ion-label>Stricted Students</ion-label>
+						<ion-input minlength="10" maxlength="10" [(ngModel)]="inputStudent"></ion-input>
+					</ion-item>
+				</ion-col>
+				<ion-col width-20>
+					<button ion-button (click)="addStudent()">Add</button>
+				</ion-col>
+			</ion-row>
+			<ion-row *ngFor="let student of event.strictedParticipants">
+				<ion-col width-80>
+					<p>{{student.code}}</p>
+				</ion-col>
+				<ion-col width-20>
+					<button ion-button icon-only clear (click)="removeStudent(student)">
+						<ion-icon name="md-close"></ion-icon>
+					</button>
+				</ion-col>
+			</ion-row>
+		</ion-grid>					
+	</ion-list>
+	<!-- {{event|json}} -->
+</ion-content>
+<ion-footer>
+	<ion-toolbar>
+		<button ion-button block (click)="saveEvent(event)">save</button>
+	</ion-toolbar>
+</ion-footer>
+
+
+
