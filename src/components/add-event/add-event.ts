@@ -1,6 +1,5 @@
 import { Component, ViewChild, Input} from '@angular/core';
-import { ViewController, ToastController} from 'ionic-angular';
-import {Validators, FormControl} from '@angular/forms';
+import { ViewController, ToastController, NavParams} from 'ionic-angular';
 /*
   Generated class for the AddEvent component.
 
@@ -12,21 +11,35 @@ import {Validators, FormControl} from '@angular/forms';
     templateUrl: 'add-event.html'
   })
   export class AddEventComponent {
+
     @ViewChild('title') titleInput;
     titleControl: any;
     event: any;
-    d: Date;
-    constructor(public viewCtrl: ViewController, public toastCtrl: ToastController) {
-      this.d = new Date();
-      this.titleControl = new FormControl('', Validators.compose([Validators.nullValidator, Validators.required]));
-      this.event = {
-        title: "",
-        startDate: this.d,
-        endDate: new Date(),
-        isStricted: false,
-        strictedParticipants:[],
-        participants:[]
+    inputStudent: string;
+    editEvent: any;
+    constructor(public viewCtrl: ViewController, public toastCtrl: ToastController, params: NavParams) {
+      
+      this.editEvent = params.get('event');
+      if(!this.editEvent){
+
+        this.event = {
+          title: "",
+          startDate: new Date().toISOString(),
+          endDate: new Date().toISOString(),
+          isStricted: false,
+          strictedParticipants:[
+          {code:"5610110655", status:"wait"},
+          {code:"5610110444", status:"wait"},
+          {code:"5610110334", status:"wait"},
+          {code:"5610110235", status:"wait"},
+          ],
+          participants:[]
+        }
+
+      }else{
+        this.event = this.editEvent;
       }
+
     }
 
     ionViewDidLoad() {
@@ -51,5 +64,21 @@ import {Validators, FormControl} from '@angular/forms';
         duration: 3000,
       });
       toast.present();
+    }
+
+    addStudent(){
+      if(this.inputStudent.length == 10 ){
+        let student = {code: this.inputStudent, status:"wait"};
+        this.event.strictedParticipants.push(student);
+        this.inputStudent = "";
+      }else{
+        this.presentToast("Student Code must has 10 Number");
+      }
+    }
+    removeStudent(student){ 
+      let index = this.event.strictedParticipants.indexOf(student);
+      if(index > -1){
+        this.event.strictedParticipants.splice(index, 1);
+      }
     }
   }

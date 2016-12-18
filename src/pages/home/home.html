@@ -25,25 +25,43 @@
 </ion-header>
 
 <ion-content>
+
+<!-- {{events|json}} -->
+
+	<!-- <button ion-button (click)="ss()"></button> -->
+	<button ion-button (click)="createFile()"></button>
 	<ion-fab right bottom>
 		<button ion-fab icon-only (click)="showAddEventModal()">
 			<ion-icon name="md-add"></ion-icon>
 		</button>
 	</ion-fab>
+	<ion-card *ngFor="let event of events">
+		<ion-card-header class="card-header">
+			<ion-grid>
+				<ion-row>
+					<ion-col width-75>
+						<button class="event-title" ion-button clear>
+							<h1>{{event.title}}</h1>
+						</button>
+					</ion-col>
+					<ion-col width-25>
+						<ion-buttons>
+							<button class="event-title" ion-button icon-only clear (click)="showEditEventModal(event)">
+								<ion-icon name="md-create"></ion-icon>
+							</button>
+							<button class="event-title" ion-button icon-only clear (click)="removeEvent(event)">
+								<ion-icon name="md-close"></ion-icon>
+							</button>
+						</ion-buttons>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
 
-	<ion-list no-lines>
-		<ion-card *ngFor="let event of events">
-			<ion-card-header class="card-header">
-				<button class="event-title" ion-button clear>
-					<h1>{{event.title}}</h1>
-				</button>
-			</ion-card-header>
-			<ion-item-divider class="divider"></ion-item-divider>
-			<ion-card-content>
-				<h2>Date: {{setDateFormat(event.startDate)}} - {{setDateFormat(event.endDate)}}</h2>
-				<h2>Participants: <ion-badge>{{event.participants.length}}</ion-badge></h2>
-			</ion-card-content>
-		</ion-card>
-		
-	</ion-list>
+		</ion-card-header>
+		<ion-item-divider class="divider"></ion-item-divider>
+		<ion-card-content>
+			<h2>Date: {{setDateFormat(event.startDate)}} - {{setDateFormat(event.endDate)}}</h2>
+			<h2>Participants: <ion-badge>{{event.participants.length}}</ion-badge></h2>
+		</ion-card-content>
+	</ion-card>
 </ion-content>

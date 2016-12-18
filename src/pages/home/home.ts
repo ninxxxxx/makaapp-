@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { BarcodeScanner, File } from 'ionic-native';
+import { NavController, ModalController, ActionSheetController, AlertController } from 'ionic-angular';
 
 import { AddEventComponent } from '../../components/add-event/add-event';
+
 
 /*
   Generated class for the Home page.
@@ -9,21 +11,29 @@ import { AddEventComponent } from '../../components/add-event/add-event';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
   */
+  declare var cordova:any;
+  declare var window:any;
+  const fs:string = cordova.file.dataDirectory;
   @Component({
   	selector: 'page-home',
-  	templateUrl: 'home.html'
+  	templateUrl: 'home.html',
   })
   export class HomePage {
   	events: [any];
-  	constructor(public navCtrl: NavController, public modalCtrl: ModalController)
+  	constructor(
+      public navCtrl: NavController, 
+      public modalCtrl: ModalController, 
+      public actionCtrl: ActionSheetController,
+      public alertCtrl: AlertController
+      )
   	{
       console.log(new Date("October 13, 2014 11:13:00"));
-  		this.events = [
+      this.events = [
       {
         title: "Mom Day", 
-        startDate: new Date("August 8, 2016 8:00:00"),
-        endDate: new Date("August 8, 2016 15:00:00"),
-        stricted: false,
+        startDate: new Date("August 8, 2016 8:00:00").toISOString(),
+        endDate: new Date("August 8, 2016 15:00:00").toISOString(),
+        isStricted: false,
         strictedParticipants: [],
         participants: [
         "5610110655",
@@ -33,13 +43,13 @@ import { AddEventComponent } from '../../components/add-event/add-event';
 
       },
       {
-        title: "Dad Day", 
-        startDate: new Date("August 8, 2016 8:00:00"),
-        endDate: new Date("August 8, 2016 15:00:00"),
-        stricted: true,
+        title: "Dad Day",
+        startDate: new Date("August 8, 2016 8:00:00").toISOString(),
+        endDate: new Date("August 8, 2016 15:00:00").toISOString(),
+        isStricted: true,
         strictedParticipants: [
-        "5610110655",
-        "5610110654",
+        {code: "5610110655", status: "wait"},
+        {code: "5610110654", status: "wait"},
         ],
         participants: [
         "5610110655",
@@ -51,6 +61,7 @@ import { AddEventComponent } from '../../components/add-event/add-event';
 
       },
       ];
+
     }
 
     ionViewDidLoad() {
@@ -67,10 +78,79 @@ import { AddEventComponent } from '../../components/add-event/add-event';
       modal.present();
     }
 
-    setDateFormat(date){
-      // console.log("From: " + date);
-      // console.log("to: " + ""+date.getDate()+"/"+(date.getMonth() + 1)+"/"+date.getFullYear() + "(" + date.getHours() + ":" + date.getMinutes() + ")");
-
-      return ""+date.getDate()+"/"+(date.getMonth() + 1)+"/"+date.getFullYear() + " (" + date.getHours() + "." + date.getMinutes() + ")";
+    showEditEventModal(event){
+      let indexEvent = this.events.indexOf(event);
+      let modal = this.modalCtrl.create(AddEventComponent, {event: event});
+      modal.onDidDismiss(event =>{
+        // console.log(event);
+        if(event)
+          this.events[indexEvent] = event;
+      });
+      modal.present();
     }
+
+    setDateFormat(date){
+      let newDate = new Date(date);
+      let newFormat = ""+newDate.getDate()+"/"+(newDate.getMonth() + 1)+"/"+newDate.getFullYear() + " (" + newDate.getHours() + "." + newDate.getMinutes() + ")";
+      // console.log(date);
+      // console.log("" + date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " (" + date.getHours() + "." + date.getMinutes() + ")");
+      return newFormat;
+    }
+
+    sortEvents(){
+      this.events.sort();
+    }
+
+    presentActionSheet(){
+
+    }
+
+    ss(){
+      BarcodeScanner.scan().then((data)=>{
+        console.log(data);
+      },
+      (err)=>{
+        console.log("Error: " + err);
+      }
+      );
+    }
+
+    removeEvent(event){
+      // console.log(event);
+      // let e = this.events.find(x => x == event);
+      // console.log(e);
+      let confirm = this.alertCtrl.create({
+        title: "Remove Event " + event.title + " ?",
+        message: "Are you sure to remove event " + event.title + " ?",
+        buttons: [
+        {
+          text: 'OK',
+          handler: ()=>{
+            let index = this.events.indexOf(event);
+            if(index > -1){
+              this.events.splice(index, 1);
+            }
+            console.log();
+          }
+        },
+        {
+          text: 'Cancel',
+          handler: ()=>{
+
+          }
+        }
+        ]
+      });
+      confirm.present();
+      
+    }
+
+
+    createFile(){
+      // File.createDir()
+      File.createFile(cordova.file.dataDirectory, "arnon.txt", false)
+          .then(()=>{console.log("completed")})
+          .catch(()=> console.log("failed"));
+    }
+
   }
