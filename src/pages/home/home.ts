@@ -13,9 +13,7 @@ import { HowToComponent } from '../../components/how-to/how-to';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
   */
-  // declare var cordova:any;
-  // declare var window:any;
-  // const fs:string = cordova.file.dataDirectory;
+  declare var cordova:any;
   @Component({
   	selector: 'page-home',
   	templateUrl: 'home.html',
@@ -148,21 +146,36 @@ import { HowToComponent } from '../../components/how-to/how-to';
     }
 
 
-    // createFile(){
-    //   // File.createDir()
-    //   File.createFile(cordova.file.dataDirectory, "arnon.txt", false)
-    //       .then(()=>{console.log("completed")})
-    //       .catch(()=> console.log("failed"));
-    // }
 
     searchEvent(){
-        let modal = this.modalCtrl.create(SearchEventComponent);
-        modal.present();
+      let modal = this.modalCtrl.create(SearchEventComponent);
+      modal.present();
     }
 
     howToUser(){
-        let modal = this.modalCtrl.create(HowToComponent);
-        modal.present();
+      let modal = this.modalCtrl.create(HowToComponent);
+      modal.present();
+    }
+    createFile(){
+      // File.createDir()
+      // console.log("Date: " + cordova.file.externalDataDirectory);
+      let p = [
+      {name:"Sally Whittaker", year:2018},
+      {name:"Belinda Jameson", year:2017},
+      {name:"Jeff Smith", year:2018},
+      {name:"Sandy Allen", year:2019}
+      ];
+      let str = "";
+
+      p.forEach((person)=>{
+        str += person.name + "," + person.year + "\n";
+      });
+
+      // File.writeFile(cordova.file.externalDataDirectory, "arnon.csv", str, false)
+      File.writeFile(cordova.file.externalRootDirectory, "arnon.csv", str, false)
+      .then(()=>{console.log("completed")})
+      .catch(()=> console.log("failed"));
     }
 
   }
+
