@@ -1,11 +1,14 @@
 import { Component, ViewChild, Input} from '@angular/core';
 import { ViewController, ToastController, NavParams} from 'ionic-angular';
+// import {FilePath} from 'ionic-native';
+import {FileChooser, File} from 'ionic-native';
 /*
   Generated class for the AddEvent component.
 
   See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
   for more info on Angular 2 Components.
     */
+  declare var window:any;
   @Component({
     selector: 'add-event',
     templateUrl: 'add-event.html'
@@ -18,7 +21,7 @@ import { ViewController, ToastController, NavParams} from 'ionic-angular';
     inputStudent: string;
     editEvent: any;
     constructor(public viewCtrl: ViewController, public toastCtrl: ToastController, params: NavParams) {
-      
+
       this.editEvent = params.get('event');
       if(!this.editEvent){
 
@@ -28,10 +31,6 @@ import { ViewController, ToastController, NavParams} from 'ionic-angular';
           endDate: new Date().toISOString(),
           isStricted: false,
           strictedParticipants:[
-          {code:"5610110655", status:"wait"},
-          {code:"5610110444", status:"wait"},
-          {code:"5610110334", status:"wait"},
-          {code:"5610110235", status:"wait"},
           ],
           participants:[]
         }
@@ -81,4 +80,42 @@ import { ViewController, ToastController, NavParams} from 'ionic-angular';
         this.event.strictedParticipants.splice(index, 1);
       }
     }
+
+    importStudentWithCsv(){
+      FileChooser.open()
+      .then((uri)=>{
+        window.FilePath.resolveNativePath(uri,
+          url =>{
+            console.log("I GOT FILE PATH !! : " + url);
+            let fileName = url.split("/").pop();
+            console.log("fileName " + fileName);
+            let path = url.replace(fileName, "");
+            console.log("path " + path);
+            File.readAsText(path, fileName)
+                .then((data)=>{
+                  let dd = "" + data;
+                  // dd = dd.replace(",", "");
+                  let studentCodes = dd.split("\n");
+                  let students = [];
+                 studentCodes.forEach((code)=>{
+                   code = code.split(",")[0];
+                   students.push({code: code, status: "wait"});
+                 })
+                  this.event.strictedParticipants = this.event.strictedParticipants.concat(students);
+                  this.presentToast("Import Student Code from csv file completed");
+                  console.log(this.event.strictedParticipants);
+                  // console.log(students);
+                })
+                .catch((err)=>{
+                  console.log("ERROR: " + err);
+                });
+          },
+          err =>{
+            this.presentToast("ERROR: " + err);
+            console.log("FUCKING ERROR: " + err);
+          }
+          );
+      })
+    }
+
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { BarcodeScanner, File } from 'ionic-native';
-import { NavController, ModalController, ActionSheetController, AlertController } from 'ionic-angular';
+import { BarcodeScanner, File, FileOpener } from 'ionic-native';
+import { NavController, ModalController, ActionSheetController, AlertController, ToastController } from 'ionic-angular';
 
 import { AddEventComponent } from '../../components/add-event/add-event';
 
@@ -18,14 +18,37 @@ import { AddEventComponent } from '../../components/add-event/add-event';
   })
   export class HomePage {
   	events: [any];
-  	constructor(
+    event:any;
+    constructor(
       public navCtrl: NavController, 
       public modalCtrl: ModalController, 
       public actionCtrl: ActionSheetController,
-      public alertCtrl: AlertController
+      public alertCtrl: AlertController,
+      public toastCtrl: ToastController
       )
-  	{
+    {
       console.log(new Date("October 13, 2014 11:13:00"));
+
+
+      this.event = {
+        title: "Dad Day",
+        startDate: new Date("August 8, 2016 8:00:00").toISOString(),
+        endDate: new Date("August 8, 2016 15:00:00").toISOString(),
+        isStricted: true,
+        strictedParticipants: [
+        {code: "5610110655", status: "wait"},
+        {code: "5610110654", status: "wait"},
+        ],
+        participants: [
+        "5610110655",
+        "5610110654",
+        "5610110651",
+        "5610110651",
+        "5710343344"
+        ],
+
+      };
+
       this.events = [
       {
         title: "Mom Day", 
@@ -143,26 +166,75 @@ import { AddEventComponent } from '../../components/add-event/add-event';
       
     }
 
+    presentToast(mgs){
+      let toast = this.toastCtrl.create({
+        message: mgs,
+        duration: 3000,
+      });
+      toast.present();
+    }
 
-    createFile(){
-      // File.createDir()
-      // console.log("Date: " + cordova.file.externalDataDirectory);
-      let p = [
-      {name:"Sally Whittaker", year:2018},
-      {name:"Belinda Jameson", year:2017},
-      {name:"Jeff Smith", year:2018},
-      {name:"Sandy Allen", year:2019}
-      ];
+    exportEventToCsvFile(event){
+      let startDate = new Date(event.startDate);
+      let fileName = "" + event.title + "_" + startDate.getDate() + "_" + startDate.getMonth() + "_" + startDate.getFullYear() + ".csv";
+
       let str = "";
 
-      p.forEach((person)=>{
-        str += person.name + "," + person.year + "\n";
+      str += "" + event.title + "," + "From" + event.startDate + "," + "To" + event.endDate + "\n";
+      str += "stricted student code" + "," + "status" + "\n";
+      event.strictedParticipants.forEach((student)=>{
+        str += "" + student.code + "," + student.status + "\n";
+      });
+      str += "normal student code" + "\n";
+      event.participants.forEach((student)=>{
+        str += "" + student + "\n";
+      });
+      
+      File.checkDir(cordova.file.externalRootDirectory, 'MakaApp/')
+      .then((isExist)=>{
+        console.log("isExist: " + isExist);
+        // this.presentToast("folder is exist");
+        File.writeFile(cordova.file.externalRootDirectory + 'MakaApp/', fileName, str, false)
+        .then(()=>{
+          console.log("csv file was craeted")
+          this.presentOpenFileToast("" + cordova.file.externalRootDirectory + 'MakaApp/'+ fileName);
+        })
+        .catch(()=> console.log("failed")); 
+      })
+      .catch(()=>{
+
+        // this.presentToast("folder is not exist");
+        File.createDir(cordova.file.externalRootDirectory, 'MakaApp/', false)
+        .then((entry)=>{
+          console.log("directory was created");
+          File.writeFile(cordova.file.externalRootDirectory + 'MakaApp/', fileName, str, false)
+          .then(()=>{
+            console.log("csv file was craeted")
+            this.presentOpenFileToast("" + cordova.file.externalRootDirectory + 'MakaApp/'+ fileName);
+          })
+          .catch(()=> console.log("failed"));  
+
+        })
+        .catch(()=>{
+
+          console.log("can not create directory");
+
+        });
       });
 
-      // File.writeFile(cordova.file.externalDataDirectory, "arnon.csv", str, false)
-      File.writeFile(cordova.file.externalRootDirectory, "arnon.csv", str, false)
-      .then(()=>{console.log("completed")})
-      .catch(()=> console.log("failed"));
+    }
+
+    presentOpenFileToast(fileUrl){
+      let toast = this.toastCtrl.create({
+        message: "CSV File is in " + fileUrl,
+        position: "bottom",
+        showCloseButton: true,
+        closeButtonText: "OK",
+      });
+      toast.onDidDismiss(()=>{
+        FileOpener.open(fileUrl, 'text/csv');
+      });
+      toast.present();
     }
 
   }

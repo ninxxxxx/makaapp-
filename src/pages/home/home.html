@@ -26,10 +26,10 @@
 
 <ion-content>
 
-<!-- {{events|json}} -->
+	<!-- {{events|json}} -->
 
 	<!-- <button ion-button (click)="ss()"></button> -->
-	<button ion-button (click)="createFile()"></button>
+	<!-- <button ion-button (click)="exportEventToCsvFile(event)"></button> -->
 	<ion-fab right bottom>
 		<button ion-fab icon-only (click)="showAddEventModal()">
 			<ion-icon name="md-add"></ion-icon>
@@ -39,13 +39,16 @@
 		<ion-card-header class="card-header">
 			<ion-grid>
 				<ion-row>
-					<ion-col width-75>
+					<ion-col width-75	>
 						<button class="event-title" ion-button clear>
 							<h1>{{event.title}}</h1>
 						</button>
 					</ion-col>
 					<ion-col width-25>
-						<ion-buttons>
+						<ion-buttons class="buttons">
+							<button class="event-title" ion-button icon-only clear (click)="exportEventToCsvFile(event)">
+								<ion-icon name="md-document"></ion-icon>
+							</button>
 							<button class="event-title" ion-button icon-only clear (click)="showEditEventModal(event)">
 								<ion-icon name="md-create"></ion-icon>
 							</button>
