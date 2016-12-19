@@ -16,6 +16,7 @@ import {FileChooser, File} from 'ionic-native';
   export class AddEventComponent {
 
     @ViewChild('title') titleInput;
+    @ViewChild('code') codeInput;
     titleControl: any;
     event: any;
     inputStudent: string;
@@ -73,7 +74,9 @@ import {FileChooser, File} from 'ionic-native';
       }else{
         this.presentToast("Student Code must has 10 Number");
       }
+      this.codeInput.setFocus();
     }
+
     removeStudent(student){ 
       let index = this.event.strictedParticipants.indexOf(student);
       if(index > -1){
