@@ -3,7 +3,7 @@ import { NavController, App, ViewController, ModalController, NavParams,Modal,Pl
 import {Validators, FormBuilder } from '@angular/forms';
 import {PaticipantsPage} from '../paticipants/paticipants';
 import {ApiServices} from '../../providers/api-services';
-
+import { BarcodeScanner, File, FileOpener } from 'ionic-native';
 
 
 
@@ -13,6 +13,7 @@ import {ApiServices} from '../../providers/api-services';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+declare var cordova:any;
 @Component({
   selector: 'page-event-detail',
   templateUrl: 'event-detail.html'
@@ -47,7 +48,7 @@ export class EventDetailPage {
   sum_amount=0;
 
 
-  constructor(public modalCtrl: ModalController,public params: NavParams,private platform: Platform,private toastCtrl: ToastController) {
+  constructor(public modalCtrl: ModalController,public params: NavParams,private platform: Platform,private toastCtrl: ToastController,public viewCtrl: ViewController) {
  
      // this.checkDate(this.event.eventDate);
 
@@ -168,7 +169,11 @@ export class EventDetailPage {
 
    }
 
-  
+
+
+  dismiss(){
+      this.viewCtrl.dismiss();
+    }
 
    checkMaka(){
      console.log("in check2");
@@ -280,6 +285,70 @@ presentToast(messege) {
 
   toast.present();
 }
+
+exportEventToCsvFile(event){
+  console.log("anchan"+ event);
+      let startDate = new Date(event.startDate);
+      let fileName = "" + event.title + "_" + startDate.getDate() + "_" + startDate.getMonth() + "_" + startDate.getFullYear() + ".csv";
+
+      let str = "";
+
+      str += "" + event.title + "," + "From" + event.startDate + "," + "To" + event.endDate + "\n";
+      str += "stricted student code" + "," + "status" + "\n";
+      event.strictedParticipants.forEach((student)=>{
+        str += "" + student.code + "," + student.status + "\n";
+      });
+      str += "normal student code" + "\n";
+      event.participants.forEach((student)=>{
+        str += "" + student + "\n";
+      });
+      
+      File.checkDir(cordova.file.externalRootDirectory, 'MakaApp/')
+      .then((isExist)=>{
+        console.log("isExist: " + isExist);
+        // this.presentToast("folder is exist");
+        File.writeFile(cordova.file.externalRootDirectory + 'MakaApp/', fileName, str, false)
+        .then(()=>{
+          console.log("csv file was craeted")
+          this.presentOpenFileToast("" + cordova.file.externalRootDirectory + 'MakaApp/'+ fileName);
+        })
+        .catch(()=> console.log("failed")); 
+      })
+      .catch(()=>{
+
+        // this.presentToast("folder is not exist");
+        File.createDir(cordova.file.externalRootDirectory, 'MakaApp/', false)
+        .then((entry)=>{
+          console.log("directory was created");
+          File.writeFile(cordova.file.externalRootDirectory + 'MakaApp/', fileName, str, false)
+          .then(()=>{
+            console.log("csv file was craeted")
+            this.presentOpenFileToast("" + cordova.file.externalRootDirectory + 'MakaApp/'+ fileName);
+          })
+          .catch(()=> console.log("failed"));  
+
+        })
+        .catch(()=>{
+
+          console.log("can not create directory");
+
+        });
+      });
+
+    }
+
+    presentOpenFileToast(fileUrl){
+      let toast = this.toastCtrl.create({
+        message: "CSV File is in " + fileUrl,
+        position: "bottom",
+        showCloseButton: true,
+        closeButtonText: "OK",
+      });
+      toast.onDidDismiss(()=>{
+        FileOpener.open(fileUrl, 'text/csv');
+      });
+      toast.present();
+    }
    
   
  }

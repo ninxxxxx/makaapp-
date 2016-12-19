@@ -25,15 +25,16 @@
 
 				    <ion-item>
             			<ion-label floating >Please Enter StudentId</ion-label>
-            			<ion-input  type="text" name="client_phone"  #input #client_phone formControlName="client_phone" maxlength="10" pattern="[0-9]{10}" [value]="stdNumber" [(ngModel)]="stdNumber" ></ion-input>
+            			<ion-input  type="text" name="client_phone"  #input #client_phone formControlName="client_phone" maxlength="10" pattern="[0-9]{10}" [value]="stdNumber" [(ngModel)]="stdNumber" clearInput></ion-input>
         			</ion-item>
 					
+
 				</form>
 
+			<button ion-button (click)='addStudent();'>ADD STUDENT</button>
 
-	          
-	              <button ion-button (click)="ss()">scan barcode</button>
-	           
+	              <button ion-button color="dark" round (click)="ss()">scan barcode</button>
+	       
 			<ion-item-divider>List of Paticipants</ion-item-divider>
 	      
 	
@@ -58,11 +59,14 @@
 			       
 			</ion-list>
 		
-	<button ion-button (click)="checkInFinish()">Finish</button>
-	<button ion-button (click)="cancle()">Cancle</button>
+	
 
 
 	
  
 </ion-content>
 <ion-footer>
+<button ion-button (click)="checkInFinish()">Finish</button>
+	<button ion-button (click)="cancle()">Cancle</button>
+
+</ion-footer>
