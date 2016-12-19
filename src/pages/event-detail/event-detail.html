@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title class="colr">{{ event.title }}</ion-title>
+    <ion-title class="colr">{{ events.title }}</ion-title>
 
   </ion-navbar>
 
@@ -19,9 +19,14 @@
 
 
   <ion-list class="colr">
-        <p><ion-title class =".tab-item"> Date:  {{ Day }}  Month: {{Month}} Year: {{Year}}</ion-title>
-       <!--  <p>{{teee}}</p> -->
+        
+        <ion-title class =".tab-item"> StartDate : {{ Day }} / {{Month}} / {{Year}}</ion-title>
+        <ion-title class =".tab-item"> EndDate : {{ EDay }} / {{EMonth}} / {{EYear}}</ion-title>
+        <!-- <p><ion-title class =".tab-item"> StartDate:  {{ Day }}  </ion-title> -->
+
+        <!-- <p>{{teee}}</p> -->
        <!--  <p>{{e}}</p> -->
+        <p>
           <p><ion-title class =".tab-item">Number of Participants : {{amount}}</ion-title>
         <!-- <ion-grid>
           <ion-row class=".tab-item">
@@ -37,12 +42,14 @@
         <button ion-button (click)="showList()">View Stricted Paticipants</button>
         <!-- <button ion-button (click)="pushPage()">Add paticipants</button> -->
         <button ion-button (click)="pushPage()">Add paticipants</button>
-        <ion-item-divider [hidden]="value_std_sta || !value">List of Paticipants</ion-item-divider>
-        <ion-item-divider [hidden]="value_std || !value">List of Stricted Student</ion-item-divider>
-        <ion-item *ngFor="let subitem of event.id" >
-          <span [hidden]='value_std_sta || !value'> {{ subitem.student }} : {{subitem.status}} </span>
+        <ion-item-divider [hidden]="value_std || !value">List of Paticipants</ion-item-divider>
+        <ion-item-divider [hidden]="value_std_sta || !value">List of Stricted Student</ion-item-divider>
+        <ion-item *ngFor="let subitem of events.strictedParticipants" >
+          <span [hidden]='value_std_sta || !value'> {{ subitem.code }} : {{subitem.status}} </span>
           <span [hidden]="value_std || !value"> {{ subitem.student }} </span>
-
+        <!-- <span > {{ subitem.code }} : {{subitem.status}} </span>
+          <span > {{ subitem.student }} </span> -->
+           
         </ion-item>
 
 

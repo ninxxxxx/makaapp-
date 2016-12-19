@@ -6,6 +6,8 @@ import { AddEventComponent } from '../../components/add-event/add-event';
 
 import { SearchEventComponent } from '../../components/search-event/search-event';
 import { HowToComponent } from '../../components/how-to/how-to';
+import { EventDetailPage } from '../event-detail/event-detail';
+
 
 /*
   Generated class for the Home page.
@@ -176,6 +178,15 @@ import { HowToComponent } from '../../components/how-to/how-to';
       .then(()=>{console.log("completed")})
       .catch(()=> console.log("failed"));
     }
+
+    // ร้างเพิ่ม
+    selectEvent(event){
+      let modal = this.modalCtrl.create(EventDetailPage,{event});
+      modal.present();
+
+
+    }
+    //จบการสร้างเพิ่ม
 
   }
 

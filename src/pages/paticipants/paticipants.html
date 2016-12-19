@@ -14,11 +14,11 @@
 
 
 <ion-content padding>
-	<ion-grid>
-	          <ion-row class=".tab-item">
-	            <ion-col width-75>
+	
 	              <!-- <ion-input type="text" [value]="stdNumber" [(ngModel)]="stdNumber" ngControl="stdID" class="oo" maxlength = "10"> กรอกรหัศนึกศึกษา </ion-input> -->
-
+	              
+	           
+			 			
 				<form [formGroup]="regForm">
 				    
 				    <!-- <ion-input #input formControlName="stdnumber" type="text" [value]="stdNumber" [(ngModel)]="stdNumber" name="Phone Number" pattern="[0-9]{10}" class="oo" maxlength = "10"> กรอกรหัศนึกศึกษา </ion-input> -->
@@ -27,17 +27,13 @@
             			<ion-label floating >Please Enter StudentId</ion-label>
             			<ion-input  type="text" name="client_phone"  #input #client_phone formControlName="client_phone" maxlength="10" pattern="[0-9]{10}" [value]="stdNumber" [(ngModel)]="stdNumber" ></ion-input>
         			</ion-item>
-
-
+					
 				</form>
 
 
-	            </ion-col>
-	            <ion-col width-25>
-	              <button ion-button color="dark" round (click)='addStudent();'>ADD STUDENT</button>
-	            </ion-col>
-	          </ion-row>
-	        </ion-grid>
+	          
+	              <button ion-button (click)="ss()">scan barcode</button>
+	           
 			<ion-item-divider>List of Paticipants</ion-item-divider>
 	      
 	
@@ -47,11 +43,11 @@
 		        <ion-grid>
 					<ion-row>
 						<ion-col width-85>
-				        	{{ subitem.student }}
+				        	{{ subitem.code }}
 				        </ion-col>
 				        <ion-col width-15>
 				        	<ion-buttons end>
-				        		<button (click)="canclaAdd(subitem.student)">
+				        		<button (click)="canclaAdd(subitem.code)">
 				   					<ion-icon name="close"></ion-icon>
 			 					</button>
 			 			</ion-buttons>

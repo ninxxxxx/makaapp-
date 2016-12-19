@@ -40,7 +40,7 @@
 			<ion-grid>
 				<ion-row>
 					<ion-col width-75>
-						<button class="event-title" ion-button clear>
+						<button class="event-title" ion-button (click)="selectEvent(event)" clear>
 							<h1>{{event.title}}</h1>
 						</button>
 					</ion-col>

@@ -3,7 +3,7 @@ import {  Control, ControlGroup,  FORM_DIRECTIVES } from '../@angular/common';
 import {  Platform,NavController, App, ViewController, ModalController, NavParams } from 'ionic-angular';
 import {EventDetailPage} from '../event-detail/event-detail';
 import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from '@angular/forms';
-
+import { BarcodeScanner, File } from 'ionic-native';
 
 /*
   Generated class for the Paticipants page.
@@ -25,6 +25,7 @@ import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from
     viewCtrl;
     myForm;
     regForm: FormGroup;
+    barcode;
 
     constructor(params: NavParams,public fb: FormBuilder,public modalCtrl: ModalController,public navCtrl: NavController,viewCtrl: ViewController,formBuilder: FormBuilder) {
 
@@ -55,14 +56,14 @@ import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from
       console.log('addStudent: '+this.stdNumber);
       
       //this.event.items.push({student:this.num});
-      this.paticipants.push({student:this.stdNumber,status:"มาแล้ว"});
+      this.paticipants.push({code:this.stdNumber,status:"participants"});
       console.log(this.paticipants);
     }
 
     canclaAdd(stuDelete){
       var i = 0;
       this.paticipants.forEach((key: any) => {
-        if(stuDelete == key.student){
+        if(stuDelete == key.code){
           this.paticipants.splice(i, 1);
         }
         i++; 
@@ -77,7 +78,10 @@ import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from
     	// let profileModal = this.modalCtrl.create(EventDetailPage, {patiList: this.paticipants});
       // profileModal.present();
 
-      this.navCtrl.push(EventDetailPage,{patiList: this.paticipants});
+      // this.navCtrl.push(EventDetailPage,{patiList: this.paticipants});
+      this.checkMaka();
+      let profileModal = this.modalCtrl.create(EventDetailPage, {patiList: this.student});
+         profileModal.present();
 
     }
     cancle(){
@@ -90,7 +94,42 @@ import { FormBuilder, FormControl, FormGroup, AbstractControl, Validators } from
         this.myInput.setFocus();
       },150);
     }
+    checkMaka(){
+     // console.log("in check2");
+     // console.log("packet: "+this.packet);
+     // console.log("event: "+this.event.id);
+     
+       if(this.paticipants != null){
+          this.student.strictedParticipants.forEach((key: any) => {
+                      // console.log(key.status);
+                      this.paticipants.forEach((key2:any)=>{
+                        console.log(key2.code +" : "+ key.code);
+                        if(key2.code == key.code){
+                          key.status = "participated";
+                          console.log(key.student+" : "+key.status);
+                        }
+
+                      });
+
+        });
+
+       }else{
+         return;
+       }
     
+   }
+   ss(){
+      BarcodeScanner.scan().then((data)=>{
+        console.log(data);
+        this.barcode = data;
+        this.paticipants.push({code:this.barcode.text,status:"participants"});
+        console.log(this.paticipants);
+      },
+      (err)=>{
+        console.log("Error: " + err);
+      }
+      );
+    }
 
 
   }

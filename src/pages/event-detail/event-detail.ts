@@ -36,23 +36,44 @@ export class EventDetailPage {
   Day;
   Month;
   Year;
-  value_std_sta =0;
-  value_std=0;
+  EDay;
+  EMonth;
+  EYear;
+  value_std_sta =false;
+  value_std=false;
   hidebtn = 0;
+  events;
+  e2;
+  sum_amount=0;
 
 
   constructor(public modalCtrl: ModalController,public params: NavParams,private platform: Platform,private toastCtrl: ToastController) {
-    this.initializeEvent();
-     this.checkAmount();
-     this.checkMaka();
+ 
      // this.checkDate(this.event.eventDate);
 
-     this.e = new Date().getDate();
+        this.events = params.get('event');
      
-     //this.checkDate(this.e);
+     if(this.events == null){
+         this.events = params.get('patiList');
+
+     }
+     this.e = new Date(this.events.startDate);
+      this.e2 = new Date(this.events.endDate);
+     this.Day = this.e.getDate();   
+     this.Month = this.e.getMonth();  
+     this.Year = this.e.getFullYear(); 
+     this.EDay = this.e2.getDate();   
+     this.EMonth = this.e2.getMonth();  
+     this.EYear = this.e2.getFullYear();  
+        this.initializeEvent();
+     this.checkAmount();
+     //this.checkMaka();
+     this.checkDate(this.e);
        
-     this.teee = this.event.eventDay;
-    this.showAbsense();
+      this.teee = this.events.title;
+     console.log("events : "+ this.e.getDate());
+    // this.showButton();
+
 
   }
 
@@ -75,10 +96,14 @@ export class EventDetailPage {
                     {student: '5610110738',status:'miss'}  
                   ]
 			  	};  
+
+
+
+
     this.packet = this.params.get('patiList');
      if(this.packet != null){
       console.log('Back to eventDetail -> enclose list of paticipants :',this.packet);
- 
+       
      }
        
        
@@ -102,12 +127,15 @@ export class EventDetailPage {
     pushPage() {
       // let modal = this.modalCtrl.create(PaticipantsPage, [ this.event.items ]);
      if(this.hidebtn == 0){
-         this.presentToast("this event is not start yet.");
+         this.presentToast("this functions cannot be used.");
          return;
 
      }else{
-        let profileModal = this.modalCtrl.create(PaticipantsPage, {items: this.event.id.student});
+        // let profileModal = this.modalCtrl.create(PaticipantsPage, {items: this.events.strictedParticipants});
+        //  profileModal.present();
+        let profileModal = this.modalCtrl.create(PaticipantsPage, {items: this.events});
          profileModal.present();
+
      }
       
     }
@@ -119,14 +147,9 @@ export class EventDetailPage {
     }
 
     checkAmount(){
-    	 this.amount = this.event.id.length;
-      //this.amount = 10;
-      this.Day = this.event.eventDay.getDate();
-      this.Month = this.event.eventDay.getMonth();
-      this.Year = this.event.eventDay.getFullYear();
-      // this.Day = this.e.getDate();
-      // this.Month = this.e.getMonth();
-      // this.Year = this.e.getFullYear();
+    	 // this.amount = this.events.strictedParticipants.length();
+       this.amount = this.events.strictedParticipants.length;
+       console.log("amount: "+this.events.strictedParticipants.length);
 
 
 
@@ -221,24 +244,24 @@ export class EventDetailPage {
  showButton(){
 //พร้อมที่จะเช็ค
   this.hidebtn = 1;
-  this.value_std_sta = 1;
-  this.value_std = 0;
+  this.value_std_sta = false;
+  this.value_std = true;
 
  }
 
  hideButtonAndShowPaticiples(){
 //ยังไม่ถึง
 //แล้วแสดงผลคนที่ต้องเข้าร่วม
-  this.value_std_sta = 1;
-  this.value_std = 0;
+  this.value_std_sta = false;
+  this.value_std = true;
   this.hidebtn = 0;
    
  }
 
 showAbsense(){
 //่านไปแล้ว โชว์คนที่ขาด
-  this.value_std_sta = 0;
-  this.value_std = 1;
+  this.value_std_sta = false;
+  this.value_std = true;
   this.hidebtn = 0;
 
 
