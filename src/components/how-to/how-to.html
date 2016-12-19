@@ -5,4 +5,130 @@
   for more info on Angular 2 Components.
 -->
 
-{{text}}
+<!-- 
+  Generated template for the HowTo component.
+
+  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
+  for more info on Angular 2 Components.
+-->
+ 
+<ion-header>
+  <ion-navbar>
+    <ion-title align="center">
+      How To
+    </ion-title>
+
+    
+    <ion-buttons right>
+        <button ion-button icon-only (click)="dismiss()">
+            <ion-icon name="md-close"></ion-icon>
+        </button>
+    </ion-buttons>  
+
+  </ion-navbar>
+</ion-header>
+ <ion-content></ion-content>
+
+
+
+
+<ion-slides pager>
+
+<!-- slide page 1 -->
+<ion-slide style="background-color: #FAFFFF">
+
+    <ion-card-header>
+      
+            <H1>Home Page</H1>
+            <img src="img/Home.png"/>
+        
+    </ion-card-header>
+  
+    <ion-card-content>
+      <H4>เริ่มต้นใช้งานแอปพลิเคชัน</H4>
+    </ion-card-content>
+  
+
+</ion-slide>
+
+
+<!-- slide page 2 -->
+<ion-slide style="background-color: #FAFFFF">
+
+    <ion-card-header>
+        <H1>Search Event Page</H1>
+        <img src="img/SearchEvent.png"/>
+    </ion-card-header>
+  
+    <ion-card-content>
+        <H4>ใส่ข้อมูลหารายชื่อกิจกรรมที่ต้องการ</H4>
+    </ion-card-content>
+  
+
+</ion-slide>
+
+<!-- slide page 3 -->
+<ion-slide style="background-color: #FAFFFF">
+
+    <ion-card-header>
+        <H1>Add Event Page</H1>
+        <img src="img/AddEvent.png"/>
+
+    </ion-card-header>
+  
+    <ion-card-content>
+        <H3>การเพิ่มกิจกกรม</H3> 
+        <H4>เลือกกำหนดเป็นกิจกรรมบังคับได้</H4> 
+    </ion-card-content>
+  
+
+</ion-slide>
+  
+  <!-- slide page 3.1 -->
+<ion-slide style="background-color: #FAFFFF">
+    <ion-card-header>
+        <H1>Scan Barcode</H1>
+        <img src="img/ImportFile.png"/>
+
+    </ion-card-header>
+  
+    <ion-card-content>
+        <H3>การ Scan Barcode</H3> 
+        <H4>เพิ่มข้อมูลโดยใช้กล้องสแกนบาร์โค้ด</H4> 
+    </ion-card-content>
+</ion-slide>
+
+
+<!-- slide page 5 -->
+<ion-slide style="background-color: #FAFFFF">
+<ion-card-header>
+        <H1>Import CSV</H1>
+        <img src="img/ImportFile.png"/>
+
+    </ion-card-header>
+  
+    <ion-card-content>
+        <H3>การ Import CSV</H3> 
+        <H4>เลือกไฟล์ CSV ที่ต้องการ เพื่อเพิ่มข้อมูลงในกิจกรรมที่สร้าง</H4> 
+    </ion-card-content>
+</ion-slide>
+
+
+<!-- slide page 4 -->
+<ion-slide style="background-color: #FAFFFF ">
+<ion-card-header>
+        <H1>Export CSV</H1>
+        <img src="img/ExportFile.png"/>
+
+    </ion-card-header>
+  
+    <ion-card-content>
+        <H3>การ Export CSV</H3> 
+        <H4>ไฟล์ CSV ที่ได้จะอยู่ใน Directory MakaApp</H4>
+    </ion-card-content>
+</ion-slide>
+
+
+</ion-slides>
+
+

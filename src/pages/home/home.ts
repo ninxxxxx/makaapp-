@@ -4,6 +4,10 @@ import { NavController, ModalController, ActionSheetController, AlertController,
 
 import { AddEventComponent } from '../../components/add-event/add-event';
 
+import { SearchEventComponent } from '../../components/search-event/search-event';
+import { HowToComponent } from '../../components/how-to/how-to';
+import { EventDetailPage } from '../event-detail/event-detail';
+
 
 /*
   Generated class for the Home page.
@@ -174,6 +178,16 @@ import { AddEventComponent } from '../../components/add-event/add-event';
       toast.present();
     }
 
+    searchEvent(){
+      let modal = this.modalCtrl.create(SearchEventComponent);
+      modal.present();
+    }
+
+    howToUser(){
+      let modal = this.modalCtrl.create(HowToComponent);
+      modal.present();
+    }
+
     exportEventToCsvFile(event){
       let startDate = new Date(event.startDate);
       let fileName = "" + event.title + "_" + startDate.getDate() + "_" + startDate.getMonth() + "_" + startDate.getFullYear() + ".csv";
@@ -237,4 +251,14 @@ import { AddEventComponent } from '../../components/add-event/add-event';
       toast.present();
     }
 
+    // ร้างเพิ่ม
+    selectEvent(event){
+      let modal = this.modalCtrl.create(EventDetailPage,{event});
+      modal.present();
+
+
+    }
+    //จบการสร้างเพิ่ม
+
   }
+

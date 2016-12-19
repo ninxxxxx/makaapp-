@@ -10,10 +10,10 @@
 			Events
 		</ion-title>
 		<ion-buttons end>
-			<button ion-button icon-only>
+			<button ion-button icon-only (click)='searchEvent()'>
 				<ion-icon name="md-search"></ion-icon>
 			</button>
-			<button ion-button icon-only>
+			<button ion-button icon-only (click)='howToUser()'>
 				<ion-icon name="md-help"></ion-icon>
 			</button>
 		</ion-buttons>
@@ -39,8 +39,8 @@
 		<ion-card-header class="card-header">
 			<ion-grid>
 				<ion-row>
-					<ion-col width-75	>
-						<button class="event-title" ion-button clear>
+					<ion-col width-75>
+						<button class="event-title" ion-button (click)="selectEvent(event)" clear>
 							<h1>{{event.title}}</h1>
 						</button>
 					</ion-col>

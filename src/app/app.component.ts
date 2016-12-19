@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
+
+import { TabsPage } from '../pages/tabs/tabs';
+import { EventDetailPage } from '../pages/event-detail/event-detail';
+
+
 import { HomePage } from '../pages/home/home';
 
 
@@ -9,7 +14,9 @@ import { HomePage } from '../pages/home/home';
   templateUrl: 'app.html'
 })
 export class MyApp {
+
   rootPage = HomePage;
+
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
